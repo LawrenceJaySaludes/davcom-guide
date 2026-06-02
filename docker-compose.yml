@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: davcom_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: davcom_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d davcom_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: davcom_backend
+    expose:
+      - "9000"
+    volumes:
+      - ./backend:/var/www
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: davcom_nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www
+      - ./nginx/backend.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+
+  frontend:
+    build: ./frontend
+    container_name: davcom_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      API_BASE_URL: "http://nginx"
+      API_PROXY_TIMEOUT_MS: "30000"
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+    depends_on:
+      - nginx
+
+volumes:
+  pgdata:
