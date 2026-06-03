@@ -1,5 +1,7 @@
 FROM php:8.4-fpm
 
+ARG CACHE_BUST=20260603_1
+
 WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
