@@ -4,8 +4,8 @@ set -eu
 echo "=== Railway Start Script ==="
 echo "PORT=${PORT}"
 
-# Remove default nginx site config that may conflict with $PORT
-rm -f /etc/nginx/sites-enabled/default
+# Remove all default nginx site configs that may conflict with $PORT
+rm -f /etc/nginx/sites-enabled/*
 
 # Ensure nginx conf.d exists
 mkdir -p /etc/nginx/conf.d
@@ -24,6 +24,15 @@ nginx -t
 echo "=== Starting PHP-FPM ==="
 php-fpm -D
 
+echo "=== Nginx binary ==="
+command -v nginx
+
+echo "=== Final Nginx config ==="
+cat /etc/nginx/conf.d/default.conf
+
+echo "=== Listening ports before nginx ==="
+ss -lntp 2>/dev/null || netstat -lntp 2>/dev/null || true
+
 # Start Nginx in foreground
 echo "=== Starting Nginx on port ${PORT} ==="
-exec nginx -g 'daemon off;'
+exec nginx -g "daemon off;"
