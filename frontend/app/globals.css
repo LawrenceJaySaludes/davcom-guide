@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+.sidebar-scroll {
+  -ms-overflow-style: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.9) transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.85);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.95);
+}
+
+.leaflet-top .leaflet-control,
+.leaflet-bottom .leaflet-control {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.leaflet-right .leaflet-control,
+.leaflet-left .leaflet-control {
+  margin-right: 18px;
+  margin-left: 18px;
+}
+
+.leaflet-control-zoom a {
+  color: #db2777;
+  background: #ffffff;
+}
+
+.leaflet-control-zoom a:hover {
+  color: #be185d;
+  background: #ffffff;
+}
+
+.leaflet-control-zoom a.leaflet-disabled {
+  color: #f9a8d4;
+  background: #ffffff;
+}
+
+.user-location-marker {
+  background: transparent;
+  border: 0;
+}
+
+.user-location-marker .user-location-dot,
+.user-location-marker .user-location-pulse {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+}
+
+.user-location-marker .user-location-dot {
+  width: 22px;
+  height: 22px;
+  background: #db2777;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 4px rgba(219, 39, 119, 0.35);
+  z-index: 2;
+}
+
+.user-location-marker .user-location-pulse {
+  width: 26px;
+  height: 26px;
+  background: rgba(219, 39, 119, 0.42);
+  z-index: 1;
+  animation: location-pulse 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+@keyframes location-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.9;
+  }
+
+  75% {
+    transform: translate(-50%, -50%) scale(3.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(3.8);
+    opacity: 0;
+  }
+}
+
+.destination-slide-in {
+  transform-origin: top center;
+  animation: destination-slide-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes destination-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
