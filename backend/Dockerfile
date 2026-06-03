@@ -3,7 +3,7 @@ FROM php:8.4-fpm
 WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
-    zip unzip git libpq-dev \
+    zip unzip git libpq-dev nginx \
     && docker-php-ext-install pdo pdo_pgsql \
     && rm -rf /var/lib/apt/lists/*
 
@@ -13,7 +13,9 @@ COPY . .
 RUN composer install --no-interaction --prefer-dist
 
 COPY docker/start-container.sh /usr/local/bin/start-container
-RUN chmod +x /usr/local/bin/start-container
+COPY docker/start-railway.sh /usr/local/bin/start-railway
+COPY docker/nginx-railway.conf /var/www/docker/nginx-railway.conf
+RUN chmod +x /usr/local/bin/start-container /usr/local/bin/start-railway
 
 EXPOSE 9000
 
