@@ -37,6 +37,10 @@ php-fpm -t
 echo "=== Nginx config check ==="
 nginx -t
 
+# Run database migrations
+echo "=== Running migrations ==="
+php artisan migrate --force
+
 # Run Laravel production cache commands
 echo "=== Caching Laravel config ==="
 php artisan config:cache
