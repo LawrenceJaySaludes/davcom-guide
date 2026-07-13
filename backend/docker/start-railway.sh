@@ -35,4 +35,9 @@ ss -lntp 2>/dev/null || netstat -lntp 2>/dev/null || true
 
 # Start Nginx in foreground
 echo "=== Starting Nginx on port ${PORT} ==="
+echo "Fixing Laravel permissions..."
+
+chmod -R 775 /var/www/storage
+chmod -R 775 /var/www/bootstrap/cache
+
 exec nginx -g "daemon off;"
