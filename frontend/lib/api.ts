@@ -1,4 +1,5 @@
 const SERVER_FALLBACK_API_BASES = [
+  "https://davcom-guide-api.onrender.com",
   "http://nginx",
   "http://host.docker.internal:8000",
   "http://localhost:8000",
