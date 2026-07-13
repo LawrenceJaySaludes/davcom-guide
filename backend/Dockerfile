@@ -14,6 +14,16 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 COPY . .
 RUN composer install --no-interaction --prefer-dist
 
+RUN mkdir -p storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/framework/testing \
+    storage/logs \
+    storage/app/public \
+    bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
 COPY docker/start-container.sh /usr/local/bin/start-container
 COPY docker/start-railway.sh /usr/local/bin/start-railway
 COPY docker/nginx-railway.conf /var/www/docker/nginx-railway.conf
