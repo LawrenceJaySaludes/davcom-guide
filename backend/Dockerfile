@@ -19,6 +19,8 @@ COPY docker/start-railway.sh /usr/local/bin/start-railway
 COPY docker/nginx-railway.conf /var/www/docker/nginx-railway.conf
 RUN chmod +x /usr/local/bin/start-container /usr/local/bin/start-railway
 
-EXPOSE 9000
+ENV PORT=80
 
-CMD ["/usr/local/bin/start-container"]
+EXPOSE 80 9000
+
+CMD ["/usr/local/bin/start-railway"]
